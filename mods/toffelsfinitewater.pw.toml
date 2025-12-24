@@ -1,0 +1,13 @@
+name = "Finite Water"
+filename = "finite_water-1.20.1-1.0.0.jar"
+side = "server"
+
+[download]
+url = "https://cdn.modrinth.com/data/8fkJAnZL/versions/c0hCvDfy/finite_water-1.20.1-1.0.0.jar"
+hash-format = "sha512"
+hash = "bdbce8150f85c1f33ba11ee40d0e380a397e445563b7095ea20893a1255471b44601fbe0a338d3b69ff0f49ec5469e416a1597bdb791b6f8f58c94058916094d"
+
+[update]
+[update.modrinth]
+mod-id = "8fkJAnZL"
+version = "c0hCvDfy"

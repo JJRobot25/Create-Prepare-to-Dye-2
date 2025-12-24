@@ -1,0 +1,13 @@
+name = "Wares"
+filename = "wares-1.20.1-1.2.9.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/Jz71ddli/versions/BHfZrEom/wares-1.20.1-1.2.9.jar"
+hash-format = "sha512"
+hash = "a7252f76bad926a0455d80c014569530a97a4c7c1084746b9120915397f8df9c863c606f3400cb41149a8b26bc1f15900b4e974bd704d5cc32058bf774757c71"
+
+[update]
+[update.modrinth]
+mod-id = "Jz71ddli"
+version = "BHfZrEom"

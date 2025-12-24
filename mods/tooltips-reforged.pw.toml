@@ -1,0 +1,13 @@
+name = "Tooltips Reforged"
+filename = "tooltips_reforged-1.7-1.20.1-forge.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/qkofbRz9/versions/pVJniKgm/tooltips_reforged-1.7-1.20.1-forge.jar"
+hash-format = "sha512"
+hash = "26f116ae83856b02c029a6ea5961c65cad267238d2c5130e6ab36b521aed24bda7879406954abbc3766b1dfa05f3ca3dedf905f1f1379cf4a6a0014c63cf30ea"
+
+[update]
+[update.modrinth]
+mod-id = "qkofbRz9"
+version = "pVJniKgm"

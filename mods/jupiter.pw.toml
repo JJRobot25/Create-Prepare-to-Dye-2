@@ -1,0 +1,13 @@
+name = "Jupiter"
+filename = "jupiter-2.3.3-bugfix-1.20.1-forge.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/XbiLGMMU/versions/2YdOW2Dk/jupiter-2.3.3-bugfix-1.20.1-forge.jar"
+hash-format = "sha512"
+hash = "40432150a976bdfd6e5debd02d770c40edb813feef6747c7d2f7f2eb3fddf8a892c5fec42ea1ae30c80748871948d51ab45e155b19825c0d619bfb0f43ff121e"
+
+[update]
+[update.modrinth]
+mod-id = "XbiLGMMU"
+version = "2YdOW2Dk"
