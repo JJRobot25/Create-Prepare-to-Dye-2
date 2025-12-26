@@ -70,8 +70,8 @@ jobs:
         include:
           - platform: modrinth
             file_suffix: mrpack
-          - platform: curseforge 
-            file_suffix: zip
+          # - platform: curseforge 
+          #   file_suffix: zip
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -172,17 +172,17 @@ jobs:
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GH_TOKEN }}
-      # - name: Publish to CurseForge
-      #   if: matrix.platform == 'curseforge'
-      #   uses: Kir-Antipov/mc-publish@v3.3.0
-      #   with:
-      #     curseforge-id: ${{ vars.CF_ID }}
-      #     curseforge-token: ${{ secrets.CF_API_TOKEN }}
-      #     loaders: forge
-      #     game-versions: 1.20.1
-      #     changelog: ${{ needs.tag_and_release.outputs.changelog }}
-      #     files: "*.zip"
-      #     version: ${{ needs.tag_and_release.outputs.new_tag }}
-      #     version-type: release
-      #     name: ${{ steps.build_args.outputs.name }}
-      #     curseforge-version: ${{ needs.tag_and_release.outputs.new_tag }}
+      - name: Publish to CurseForge
+        if: matrix.platform == 'curseforge'
+        uses: Kir-Antipov/mc-publish@v3.3.0
+        with:
+          curseforge-id: ${{ vars.CF_ID }}
+          curseforge-token: ${{ secrets.CF_API_TOKEN }}
+          loaders: forge
+          game-versions: 1.20.1
+          changelog: ${{ needs.tag_and_release.outputs.changelog }}
+          files: "*.zip"
+          version: ${{ needs.tag_and_release.outputs.new_tag }}
+          version-type: release
+          name: ${{ steps.build_args.outputs.name }}
+          curseforge-version: ${{ needs.tag_and_release.outputs.new_tag }}
