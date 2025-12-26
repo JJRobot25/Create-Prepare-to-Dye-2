@@ -27,14 +27,15 @@
     "buzzier_bees:flower_blacklist" : {"hidden": true},
     "botania:contributor_headflowers": {"hidden": true},
     "amendments:goes_in_tripwire_hook": {"hidden": true},
-    "forge:stone": {"hidden": true},
     "forge:tools": {"hidden": true},
+    "forge:ingots": {"hidden": true},
     "botania:unethical_tnt_check": {"hidden": true},
     "*spawn*": {"hidden": true},
     "forge:gems": {"hidden": true},
     "forge:nuggets*": {"hidden": true},
     "railways:internal/nuggets/*_nuggets": {"hidden": true},
     "ae2:*quartz*": {"hidden": true},
+    "forge:*": {"hidden": true},
     "supplementaries:*map_tint*": {"hidden": true}
   }
 }
