@@ -233,4 +233,45 @@ ServerEvents.recipes((event) => {
     )
     .transitionalItem("botania:mana_diamond")
     .loops(1);
+
+  // TRAINS - rail assembly from iron nuggets (cheaper option)
+  event.remove({ id: "minecraft:rail" });
+  event.recipes.create
+    .sequenced_assembly("4x minecraft:rail", "#forge:rods", [
+      event.recipes.createDeploying("#forge:rods", [
+        "#forge:rods",
+        "minecraft:iron_nugget",
+      ]),
+      event.recipes.createDeploying("#forge:rods", [
+        "#forge:rods",
+        "minecraft:iron_nugget",
+      ]),
+      event.recipes.createDeploying("#forge:rods", [
+        "#forge:rods",
+        "minecraft:iron_nugget",
+      ]),
+      event.recipes.createDeploying("#forge:rods", ["#forge:rods", "#forge:rods"]),
+    ])
+    .transitionalItem("minecraft:stick")
+    .loops(4);
+
+  // TRAINS - rail assembly from andesite alloy (bulk option)
+  event.recipes.create
+    .sequenced_assembly("10x minecraft:rail", "#forge:rods", [
+      event.recipes.createDeploying("#forge:rods", [
+        "#forge:rods",
+        "#forge:ingots/andesite_alloy",
+      ]),
+      event.recipes.createDeploying("#forge:rods", [
+        "#forge:rods",
+        "#forge:ingots/andesite_alloy",
+      ]),
+      event.recipes.createDeploying("#forge:rods", [
+        "#forge:rods",
+        "#forge:ingots/andesite_alloy",
+      ]),
+      event.recipes.createDeploying("#forge:rods", ["#forge:rods", "#forge:rods"]),
+    ])
+    .transitionalItem("minecraft:stick")
+    .loops(4);
 });
