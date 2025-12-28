@@ -1,0 +1,22 @@
+## [1.236.0](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/compare/1.235.0...1.236.0) (2025-12-28)
+
+
+### Features
+
+* add hammer tooltips explaining device deconstruction and inventory drops ([9fd0c92](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/commit/9fd0c92fa384f44239a8596ae46682423a32e62f))
+* add spout handlers for AE2 energy cells and quartz bud growth ([4c02fa9](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/commit/4c02fa91add584a67ffe1b46e01e5da26af6e2a6))
+* add worldgen script to remove vanilla ores, botania flowers, and water springs ([01d0f15](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/commit/01d0f15b6c4902e24a22d6e5485e2efbbb415932))
+* port models and textures ([eafe2e2](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/commit/eafe2e24f0d4f569ffeb03cdfc6c61584472d930))
+* port storage drawers ([2c22580](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/commit/2c22580818b41e8eadbd2fda52acf2f6b420acf2))
+
+
+### Fixes
+
+* hammer now checks item tags instead of block tags and uses correct event handlers ([78098e5](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/commit/78098e5b7d3df451f6eb7fb83df759caa87dc896))
+
+
+### chores
+
+* autopublish 2025-12-28T20:05:51Z ([cc5c653](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/commit/cc5c6536036a25bf007de36e5fb0cd94beaecc47))
+
+
