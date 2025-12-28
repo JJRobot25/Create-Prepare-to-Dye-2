@@ -17,6 +17,36 @@ Every script file should start with:
 - `0` - Player events, tweaks
 - `-1` - Scripts that depend on other scripts running first
 
+## File Organization
+
+### Recipe Files by Type
+
+Recipe files live in `server_scripts/recipes/`, named after their recipe type:
+- `crushing.js` - Create crushing wheel recipes
+- `milling.js` - Create millstone recipes
+- `mixing.js` - Create mixer recipes
+- `pressing.js` - Create press recipes
+- `cutting.js` - Create saw recipes
+etc...
+
+### Systematic Logic in Separate Files or Other Specialized Files
+
+When recipes follow a pattern or require special logic, extract them to dedicated files:
+- `variants.js` - Color/wood/material variant generation (loops over variant lists)
+- `trees.js` - Tree-related recipes across multiple types (mark with `// TREES -` comments)
+- `manapool.js` - Mana pool automation recipes
+- `potions.js` - Dynamic potion filling recipes
+- `wood.js` - Log/wood conversion recipes
+- `recipe_removals.js` - All `event.remove()` calls
+- `tags.js` - All tag additions/removals
+- `block_tweaks.js` - Block behavior modifications
+- `player_tweaks.js` - Player event handlers
+- `loot.js` - Loot table modifications
+etc..
+
+
+This allows `grep -r "MODNAME"` to find all related recipes across files.
+
 ## Using Config Values
 
 Configs are defined in `startup_scripts/config.js`. Generated file: `config/create-prepare-to-dye-2.toml`.

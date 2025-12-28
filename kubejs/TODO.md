@@ -21,7 +21,7 @@ Converting old scripts from `kubejs.old/` to the new standard approach.
 - [ ] convert fuel in diesel generator recipes to new version
 - [ ] enchantments.js
 - [x] food.js -> sequenced_assembly.js (already ported)
-- [ ] hammer.js
+- [x] hammer.js -> hammer.js (device deconstruction + block pickup)
 - [x] handInteractions.js -> player_tweaks.js (bucket filling for diesel engine/spout)
 - [x] immovable.js -> tags.js
 - [ ] indestructible.js

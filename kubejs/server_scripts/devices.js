@@ -328,6 +328,7 @@ const DEVICE_GROUPS = {
       "ae2:quartz_fiber",
       "ae2:wireless_access_point",
       "ae2:wireless_terminal",
+      "ae2:wireless_access_point",
     ],
   },
 

@@ -38,6 +38,8 @@ var AE2_KEEP = [
   "ae2:brown_smart_cable",
   "ae2:black_smart_cable",
   "ae2:fluix_smart_cable",
+  "ae2:wireless_access_point",
+  "ae2:wireless_terminal",
 ];
 
 ServerEvents.recipes(function (event) {
