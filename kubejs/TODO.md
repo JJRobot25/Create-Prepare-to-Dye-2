@@ -85,22 +85,25 @@ Converting old scripts from `kubejs.old/` to the new standard approach.
 - [x] tags.js -> tags.js (consolidated all tag additions from feature/mod scripts)
 
 ## Startup Scripts (`kubejs.old/startup_scripts/`)
-- [ ] blockCustomizations.js
-- [ ] blocks.js
-- [ ] conversions.js
-- [ ] custom_blocks/ (folder)
-- [ ] custom_fluids/ (folder)
-- [ ] custom_items/ (folder)
-- [ ] destroySpeedAndLevel.js
-- [ ] emi.js
-- [ ] indestructible.js
-- [ ] jade.js
+- [x] blockCustomizations.js -> new_blocks.js (quark crate sound)
+- [x] blocks.js -> new_blocks.js, new_items.js, new_fluids.js
+- [x] conversions.js -- skipped, all commented out
+- [x] custom_blocks/gray_fence.js -> new_blocks.js
+- [x] custom_blocks/gray_fence_gate.js -> new_blocks.js
+- [ ] custom_blocks/animation_block.js -- part of Animation System
+- [ ] custom_blocks/animation_helper.js -- part of Animation System
+- [x] custom_fluids/ -> new_fluids.js (tomato_sauce, flowing_milk)
+- [x] custom_items/ -> new_items.js (animation_anchor, cooking, hammer, in_progress_items)
+- [x] destroySpeedAndLevel.js -> destroy_speed.js
+- [x] emi.js -- skipped, all commented out
+- [x] indestructible.js -> indestructible.js
+- [x] jade.js -- skipped, marked broken
 - [ ] ponderDisplayItems.js
 - [ ] predicates.js
-- [ ] spoutsFillCauldrons.js
+- [x] spoutsFillCauldrons.js -> spout_handlers.js
 - [ ] spoutsFillEnergyCells.js
 - [ ] spoutsGrowQuartzBuds.js
-- [ ] stacksizes.js
+- [x] stacksizes.js -> stacksizes.js
 - [ ] trading.js
 - [ ] worldgen.js
 
