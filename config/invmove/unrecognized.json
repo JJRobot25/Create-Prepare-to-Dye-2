@@ -20,7 +20,8 @@
     "com.simibubi.create.foundation.blockEntity.behaviour.ValueSettingsScreen": true,
     "top.theillusivec4.curios.client.gui.CuriosScreenV2": true,
     "com.example.personalmesystem.client.gui.PersonalMEScreen": true,
-    "io.github.mortuusars.wares.client.gui.agreement.AgreementScreen": true
+    "io.github.mortuusars.wares.client.gui.agreement.AgreementScreen": true,
+    "com.jaquadro.minecraft.storagedrawers.inventory.FramingTableScreen": true
   },
   "hideBackground": {
     "dev.emi.emi.screen.RecipeScreen": true,

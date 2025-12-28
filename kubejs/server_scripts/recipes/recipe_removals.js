@@ -132,4 +132,7 @@ ServerEvents.recipes((event) => {
   for (var i = 0; i < easyVillagersItems.length; i++) {
     event.remove({ output: easyVillagersItems[i] });
   }
+
+  // Wares delivery table (obtained differently)
+  event.remove({ id: "wares:delivery_table" });
 });
