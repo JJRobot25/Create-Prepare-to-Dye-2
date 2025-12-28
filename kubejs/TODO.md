@@ -59,11 +59,11 @@ Converting old scripts from `kubejs.old/` to the new standard approach.
 - [x] minecraft.js -> tags.js (squeezables tags), TODO: recipes
 - [x] quark.js -> quark.js (item hiding only), recipes split to smelting.js, crafting.js, variants.js (searchable via "QUARK -")
 - [x] railways.js -> tags.js (zinc_nuggets fix), TODO: recipe removals
-- [ ] salt.js -- skipped, mod not planned
-- [ ] storageDrawers.js
-- [ ] supplementaries.js
-- [ ] wands.js -- skipped, mod not planned
-- [ ] wares.js
+- [x] salt.js -- skipped, mod not planned
+- [x] storageDrawers.js -> storagedrawers.js (keep only essential items)
+- [x] supplementaries.js -> supplementaries.js (hide items, doormat recipe)
+- [x] wands.js -- skipped, mod not planned
+- [x] wares.js -> recipe_removals.js (delivery table recipe removed)
 
 ### Trading System (`kubejs.old/server_scripts/base/trading/`)
 - [ ] backwardsCompatEngine.js
@@ -99,13 +99,13 @@ Converting old scripts from `kubejs.old/` to the new standard approach.
 - [x] indestructible.js -> indestructible.js
 - [x] jade.js -- skipped, marked broken
 - [ ] ponderDisplayItems.js
-- [ ] predicates.js
+- [x] predicates.js -> predicates.js (wares delivery agreement model predicate)
 - [x] spoutsFillCauldrons.js -> spout_handlers.js
-- [ ] spoutsFillEnergyCells.js
-- [ ] spoutsGrowQuartzBuds.js
+- [x] spoutsFillEnergyCells.js -> spout_handlers.js (milk fills AE2 energy cells)
+- [x] spoutsGrowQuartzBuds.js -> spout_handlers.js (water grows quartz buds)
 - [x] stacksizes.js -> stacksizes.js
 - [ ] trading.js
-- [ ] worldgen.js
+- [x] worldgen.js -> worldgen.js (removes ores, flowers, springs)
 
 ## Client Scripts (`kubejs.old/client_scripts/`)
 - [ ] animation_anchor.js
