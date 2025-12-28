@@ -63,7 +63,10 @@ StartupEvents.registry("item", (event) => {
   // event.create("ptdye:furnished_device");
 
   // Tools and misc items
-  event.create("ptdye:hammer").unstackable();
+  event.create("ptdye:hammer")
+    .unstackable()
+    .tooltip("Deconstructs devices into their generic form")
+    .tooltip("Broken blocks drop directly to inventory");
 
   // Animation anchors (anchor_set hidden via no tab addition)
   event.create("ptdye:animation_anchor").unstackable();
