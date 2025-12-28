@@ -80,6 +80,29 @@ const TOOLTIP_MAPPINGS = {
   "ptdye:red_stringed_device": "ptd.tooltip.ptdye.red_stringed_device",
   "ptdye:furnished_device": "ptd.tooltip.ptdye.furnished_device",
   "ptdye:hammer": "ptd.tooltip.ptdye.hammer",
+
+  // Forgery tweaks tooltips
+  "minecraft:campfire": "ptd.tooltip.forgery.campfire",
+  "minecraft:soul_campfire": "ptd.tooltip.forgery.campfire",
+  // "minecraft:sweet_berries": "ptd.tooltip.forgery.berry_bush",
+  // "minecraft:cactus": "ptd.tooltip.forgery.cactus",
+  // "minecraft:arrow": "ptd.tooltip.forgery.arrow",
+  "minecraft:cobweb": "ptd.tooltip.forgery.cobweb",
+  "minecraft:farmland": "ptd.tooltip.forgery.farmland",
+  // "minecraft:trident": "ptd.tooltip.forgery.trident",
+  // "minecraft:lever": "ptd.tooltip.forgery.lever",
+  "minecraft:note_block": "ptd.tooltip.forgery.note_block",
+  "minecraft:moss_block": "ptd.tooltip.forgery.moss",
+  "minecraft:anvil": "ptd.tooltip.forgery.anvil",
+  "minecraft:chipped_anvil": "ptd.tooltip.forgery.anvil",
+  "minecraft:damaged_anvil": "ptd.tooltip.forgery.anvil",
+  "minecraft:grindstone": "ptd.tooltip.forgery.grindstone",
+  "minecraft:powered_rail": "ptd.tooltip.forgery.powered_rail",
+  "minecraft:detector_rail": "ptd.tooltip.forgery.detector_rail",
+  "minecraft:furnace_minecart": "ptd.tooltip.forgery.furnace_minecart",
+  // "minecraft:crossbow": "ptd.tooltip.forgery.crossbow",
+  "minecraft:blaze_powder": "ptd.tooltip.forgery.blaze_powder",
+  // "minecraft:bow": "ptd.tooltip.forgery.bow",
 };
 
 // AE2 smart cables - all colors

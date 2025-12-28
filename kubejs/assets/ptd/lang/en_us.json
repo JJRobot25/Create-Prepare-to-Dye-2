@@ -277,5 +277,19 @@
   "ptd.tooltip.ptdye.furnished_device": "A _Furnished Device_ can be converted through the _Personal Assembler [V] to open_ to many different wooden and furniture devices like _Doors_, _Signs_, _Beds_ and many more! Any device of that type can be converted back to a _Furnished Device_ in the inventory crafting grid",
   "ptd.tooltip.ptdye.hammer": "_Right-click_ or _break_ devices to deconstruct them into their _generic form_. Drops go _directly to inventory_",
 
+  "ptd.tooltip.forgery.campfire": "_set mobs on fire_. _unlit when placed_",
+  "ptd.tooltip.forgery.cobweb": "_flammable_",
+  "ptd.tooltip.forgery.farmland": "_cannot be trampled_",
+  "ptd.tooltip.forgery.trident": "_loyalty_ returns from _void_",
+  "ptd.tooltip.forgery.note_block": "_note info_ on tune. _plays on landing_. _sneak_ to lower pitch",
+  "ptd.tooltip.forgery.moss": "_fertilize_ stone nearby to spread",
+  "ptd.tooltip.forgery.anvil": "_iron block_ to repair",
+  "ptd.tooltip.forgery.powered_rail": "_comparator_ detects carts. _magenta terracotta_ below pushes in arrow direction",
+  "ptd.tooltip.forgery.detector_rail": "_magenta terracotta_ below detects only carts moving in arrow direction",
+  "ptd.tooltip.forgery.furnace_minecart": "_any fuel_. _hyperspeed_. _powered rails_ stop and conserve",
+  "ptd.tooltip.forgery.crossbow": "_infinity_ enchant works",
+  "ptd.tooltip.forgery.blaze_powder": "_fertilizer_ for _nether wart_",
+  "ptd.tooltip.forgery.bow": "_infinity_ needs no arrow",
+
   "ptd.tooltip.disabled_item": "This item was removed from the game. If you acquired it in Automation mode, please contact the Create: Prepare to Dye developers on Discord or Github"
 }
