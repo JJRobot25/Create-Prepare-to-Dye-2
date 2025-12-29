@@ -274,4 +274,33 @@ ServerEvents.recipes((event) => {
     ])
     .transitionalItem("minecraft:stick")
     .loops(4);
+
+  // =============================================================================
+  // ENCHANTMENT COMBINING - combine 2 books of same enchant to get higher level
+  // =============================================================================
+
+  var enchantRegistry = Java.loadClass("net.minecraft.core.registries.BuiltInRegistries").ENCHANTMENT;
+  enchantRegistry.entrySet().forEach(function(entry) {
+    var enchantId = String(entry.getKey().location());
+    var maxLevel = parseInt(entry.getValue().getMaxLevel().toFixed(0));
+
+    for (var level = 2; level <= maxLevel; level++) {
+      var outputBook = Item.of("minecraft:enchanted_book").enchant(enchantId, level);
+      var inputBook = Item.of("minecraft:enchanted_book").enchant(enchantId, level - 1).strongNBT();
+
+      event.recipes.create
+        .sequenced_assembly(outputBook, inputBook, [
+          event.recipes.create.filling("minecraft:enchanted_book", [
+            Fluid.of("create_enchantment_industry:experience", 1),
+            "minecraft:enchanted_book",
+          ]),
+          event.recipes.createDeploying("minecraft:enchanted_book", [
+            "minecraft:enchanted_book",
+            inputBook,
+          ]),
+        ])
+        .transitionalItem("minecraft:enchanted_book")
+        .loops(1);
+    }
+  });
 });
