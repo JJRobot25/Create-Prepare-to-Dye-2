@@ -126,4 +126,23 @@ ServerEvents.recipes((event) => {
       { type: "drop_item", item: "minecraft:chorus_flower" },
     ],
   });
+
+  // DEAD PLANET - grow dead bush from white concrete powder with bone meal
+  event.custom({
+    type: "lychee:block_interacting",
+    item_in: { item: "minecraft:bone_meal" },
+    block_in: "minecraft:white_concrete_powder",
+    post: [
+      { type: "place", block: "minecraft:dead_bush", offset: [0, 1, 0] },
+    ],
+  });
+
+  // DEAD PLANET - dripping from grass creates dead bush
+  event.custom({
+    type: "lychee:dripstone_dripping",
+    block_in: "minecraft:grass_block",
+    post: [
+      { type: "drop_item", item: "minecraft:dead_bush" },
+    ],
+  });
 });

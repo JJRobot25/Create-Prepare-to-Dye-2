@@ -182,4 +182,43 @@ ServerEvents.recipes((event) => {
     "8x #forge:concrete_powders",
     "supplementaries:soap",
   ]);
+
+  // DIESEL GENERATORS - fermented blob from fermented goop
+  event.recipes.create.mixing(
+    [Item.of("ptdye:fermented_blob").withChance(0.10)],
+    [Fluid.of("ptdye:fermented_goop", 10)]
+  );
+
+  // DIESEL GENERATORS - slime from fermented blob and lime dye
+  event.recipes.create.mixing("minecraft:slime_ball", [
+    "ptdye:fermented_blob",
+    "#forge:dyes/lime",
+  ]);
+
+  // DIESEL GENERATORS - slime from fermented goop (bulk)
+  event.recipes.create.mixing(
+    [Item.of("minecraft:slime_ball").withChance(0.80)],
+    [Fluid.of("ptdye:fermented_goop", 500), "4x #forge:dyes/lime"]
+  );
+
+  // DEAD PLANET - white dye from snowballs and fermented goop
+  event.recipes.create.mixing(
+    [Item.of("minecraft:white_dye").withChance(0.75)],
+    ["16x minecraft:snowball", Fluid.of("ptdye:fermented_goop", 10)]
+  );
+
+  // DEAD PLANET - soap from ash and fat
+  event.remove({ id: "supplementaries:soap" });
+  event.recipes.create.mixing("6x supplementaries:soap", [
+    "4x #forge:dusts/ash",
+    "#forge:meat/fat",
+    Fluid.water(1000),
+  ]);
+
+  // DEAD PLANET - soap from ash and plant oil
+  event.recipes.create.mixing("6x supplementaries:soap", [
+    "8x #forge:dusts/ash",
+    Fluid.of("createdieselgenerators:plant_oil", 250),
+    Fluid.water(750),
+  ]);
 });

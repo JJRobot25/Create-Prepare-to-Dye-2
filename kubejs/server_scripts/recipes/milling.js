@@ -198,4 +198,19 @@ ServerEvents.recipes((event) => {
     [Item.of("minecraft:apple").withChance(0.20)],
     "minecraft:oak_leaves"
   );
+
+  // DEAD PLANET - white concrete powder to dead bush/bone
+  event.recipes.create.milling(
+    [
+      Item.of("minecraft:dead_bush").withChance(0.07),
+      Item.of("minecraft:bone").withChance(0.04),
+    ],
+    "minecraft:white_concrete_powder"
+  );
+
+  // DEAD PLANET - dead bush to sticks
+  event.recipes.create.milling(
+    ["minecraft:stick", Item.of("minecraft:stick").withChance(0.75)],
+    "minecraft:dead_bush"
+  );
 });

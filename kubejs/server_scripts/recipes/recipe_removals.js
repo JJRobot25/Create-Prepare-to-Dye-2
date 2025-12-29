@@ -2,7 +2,7 @@
 //Create Prepare to Dye 2 - Recipe Removals
 //This file contains recipe removals that don't fit neatly into other category files
 
-ServerEvents.recipes((event) => {
+ServerEvents.recipes(function(event) {
   // Charm cyan dye
   event.remove({ id: "charm:extra_recipes/cyan_dye" });
 
@@ -35,12 +35,12 @@ ServerEvents.recipes((event) => {
   event.remove({ id: "botania:red_string_alt" });
 
   // Botania apothecary types
-  let apothecaryTypes = [
+  var apothecaryTypes = [
     "forest", "plains", "mountain", "fungal", "swamp", "jungle", "taiga", "mesa", "mossy", "livingrock", "deepslate"
   ];
-  apothecaryTypes.forEach((type) => {
-    event.remove({ id: `botania:apothecary_${type}` });
-  });
+  for (var i = 0; i < apothecaryTypes.length; i++) {
+    event.remove({ id: "botania:apothecary_" + apothecaryTypes[i] });
+  }
 
   // Botania laputa shard
   event.remove({ id: "botania:laputa_shard" });
@@ -162,7 +162,7 @@ ServerEvents.recipes((event) => {
   event.remove({ output: "botania:manasteel_sword" });
 
   // BOTANIA - Cosmetic trinkets
-  [
+  var cosmeticTrinkets = [
     "botania:cosmetic_black_bowtie", "botania:cosmetic_black_tie",
     "botania:cosmetic_red_glasses", "botania:cosmetic_puffy_scarf",
     "botania:cosmetic_engineer_goggles", "botania:cosmetic_eyepatch",
@@ -179,17 +179,23 @@ ServerEvents.recipes((event) => {
     "botania:cosmetic_orange_shades", "botania:cosmetic_groucho_glasses",
     "botania:cosmetic_thick_eyebrows", "botania:cosmetic_lusitanic_shield",
     "botania:cosmetic_tiny_potato_mask", "botania:cosmetic_questgiver_mark",
-    "botania:cosmetic_thinking_hand",
-  ].forEach((item) => event.remove({ output: item }));
+    "botania:cosmetic_thinking_hand"
+  ];
+  for (var i = 0; i < cosmeticTrinkets.length; i++) {
+    event.remove({ output: cosmeticTrinkets[i] });
+  }
 
   // BOTANIA - Brews
-  [
+  var brews = [
     "botania:brew_vial", "botania:brew_flask",
-    "botania:incense_stick", "botania:blood_pendant",
-  ].forEach((item) => event.remove({ output: item }));
+    "botania:incense_stick", "botania:blood_pendant"
+  ];
+  for (var i = 0; i < brews.length; i++) {
+    event.remove({ output: brews[i] });
+  }
 
   // BOTANIA - Personal improvement trinkets
-  [
+  var trinkets = [
     "botania:travel_belt", "botania:super_travel_belt",
     "botania:speed_up_belt", "botania:knockback_belt",
     "botania:ice_pendant", "botania:lava_pendant",
@@ -205,28 +211,63 @@ ServerEvents.recipes((event) => {
     "botania:goddess_charm", "botania:tiny_planet",
     "botania:invisibility_cloak", "botania:balance_cloak",
     "botania:unholy_cloak", "botania:holy_cloak",
-    "botania:third_eye",
-  ].forEach((item) => event.remove({ output: item }));
+    "botania:third_eye"
+  ];
+  for (var i = 0; i < trinkets.length; i++) {
+    event.remove({ output: trinkets[i] });
+  }
 
   // BOTANIA - Relics
-  [
+  var relics = [
     "botania:king_key", "botania:infinite_fruit",
     "botania:dice", "botania:loki_ring",
     "botania:odin_ring", "botania:thor_ring",
-    "botania:flugel_eye",
-  ].forEach((item) => event.remove({ output: item }));
+    "botania:flugel_eye"
+  ];
+  for (var i = 0; i < relics.length; i++) {
+    event.remove({ output: relics[i] });
+  }
 
   // BOTANIA - Non-useful rods (keep dirt_rod, tornado_rod, rainbow_rod)
-  [
+  var rods = [
     "botania:missile_rod", "botania:cobble_rod",
     "botania:water_rod", "botania:fire_rod",
     "botania:divining_rod", "botania:smelt_rod",
     "botania:exchange_rod", "botania:gravity_rod",
-    "botania:skydirt_rod", "botania:terraform_rod",
-  ].forEach((item) => event.remove({ output: item }));
+    "botania:skydirt_rod", "botania:terraform_rod"
+  ];
+  for (var i = 0; i < rods.length; i++) {
+    event.remove({ output: rods[i] });
+  }
+
+  // DIESEL GENERATORS - unused items
+  var dieselItems = [
+    "createdieselgenerators:chemical_sprayer",
+    "createdieselgenerators:chemical_sprayer_lighter",
+    "createdieselgenerators:chip_wood_block",
+    "createdieselgenerators:chip_wood_slab",
+    "createdieselgenerators:chip_wood_stairs",
+    "createdieselgenerators:engine_piston",
+    "createdieselgenerators:engine_silencer",
+    "createdieselgenerators:lighter",
+    "createdieselgenerators:oil_scanner",
+    "createdieselgenerators:large_diesel_engine",
+    "createdieselgenerators:pumpjack_bearing",
+    "createdieselgenerators:pumpjack_head",
+    "createdieselgenerators:pumpjack_crank",
+    "createdieselgenerators:asphalt_block",
+    "createdieselgenerators:asphalt_slab",
+    "createdieselgenerators:asphalt_stairs",
+    "createdieselgenerators:kelp_handle",
+    "createdieselgenerators:oil_barrel",
+    "createdieselgenerators:pumpjack_hole"
+  ];
+  for (var i = 0; i < dieselItems.length; i++) {
+    event.remove({ output: dieselItems[i] });
+  }
 
   // BOTANIA - Misc tools
-  [
+  var miscTools = [
     "botania:phantom_ink", "botania:ender_hand",
     "botania:thorn_chakram", "botania:spawner_mover",
     "botania:terra_pick", "botania:glass_pickaxe",
@@ -238,6 +279,9 @@ ServerEvents.recipes((event) => {
     "botania:mana_gun", "botania:dreamwood_wand",
     "botania:slingshot", "botania:vine_ball",
     "botania:world_seed", "botania:black_hole_talisman",
-    "botania:temperance_stone", "botania:flare_chakram",
-  ].forEach((item) => event.remove({ output: item }));
+    "botania:temperance_stone", "botania:flare_chakram"
+  ];
+  for (var i = 0; i < miscTools.length; i++) {
+    event.remove({ output: miscTools[i] });
+  }
 });

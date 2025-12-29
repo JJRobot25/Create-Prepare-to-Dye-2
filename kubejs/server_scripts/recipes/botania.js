@@ -540,4 +540,61 @@ ServerEvents.recipes((event) => {
     ],
     reagent: { tag: "botania:seed_apothecary_reagent" },
   });
+
+  // DEAD PLANET - Pure daisy: fluids to concrete powders
+  event.custom({
+    type: "botania:pure_daisy",
+    input: { type: "block", block: "minecraft:lava" },
+    output: { name: "minecraft:orange_concrete_powder" },
+    time: 15,
+  });
+
+  event.custom({
+    type: "botania:pure_daisy",
+    input: { type: "block", block: "minecraft:water" },
+    output: { name: "minecraft:blue_concrete_powder" },
+    time: 15,
+  });
+
+  event.custom({
+    type: "botania:pure_daisy",
+    input: { type: "block", block: "create:honey" },
+    output: { name: "minecraft:yellow_concrete_powder" },
+    time: 15,
+  });
+
+  event.custom({
+    type: "botania:pure_daisy",
+    input: { type: "block", block: "create:chocolate" },
+    output: { name: "minecraft:brown_concrete_powder" },
+    time: 15,
+  });
+
+  event.custom({
+    type: "botania:pure_daisy",
+    input: { type: "block", block: "ptdye:organic_mass" },
+    output: { name: "minecraft:green_concrete_powder" },
+    time: 15,
+  });
+
+  event.custom({
+    type: "botania:pure_daisy",
+    input: { type: "block", block: "create_enchantment_industry:ink" },
+    output: { name: "minecraft:black_concrete_powder" },
+    time: 15,
+  });
+
+  // DEAD PLANET - Runic altar: bone meal from fermented blob
+  event.custom({
+    type: "botania:runic_altar",
+    output: { item: "minecraft:bone_meal", count: 2 },
+    mana: 1000,
+    ingredients: [
+      { item: "minecraft:bone_meal" },
+      { item: "ptdye:fermented_blob" },
+      { item: "ptdye:fermented_blob" },
+      { item: "ptdye:fermented_blob" },
+      { item: "ptdye:fermented_blob" },
+    ],
+  });
 });

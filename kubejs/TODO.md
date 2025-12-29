@@ -12,13 +12,13 @@ Converting old scripts from `kubejs.old/` to the new standard approach.
 - [x] chickenEggs.js -> chicken_eggs.js
 - [x] cooking.js -> mixing.js, sequenced_assembly.js, pressing.js (already ported)
 - [x] crafty-crate-tweaks.js -> recipe_removals.js
-- [ ] createDiselGenerators.js
-- [ ] deadPlanet.js
+- [x] createDiselGenerators.js -> recipe_removals.js (items), cutting.js (wood chips), mixing.js (fermented blob/slime), diesel_generators.js (fermenting/distillation)
+- [x] deadPlanet.js -> crushing.js, milling.js, compacting.js, mixing.js, filling.js, botania.js (pure daisy + runic altar), lychee.js
 - [ ] developerCommands.js
 - [x] diamondToolsSilkTouch.js -> block_tweaks.js
 - [x] disable_saplings.js -> recipe_removals.js
 - [ ] dye.js
-- [ ] convert fuel in diesel generator recipes to new version
+- [x] convert fuel in diesel generator recipes to new version -> diesel_generators.js
 - [ ] enchantments.js
 - [x] food.js -> sequenced_assembly.js (already ported)
 - [x] hammer.js -> hammer.js (device deconstruction + block pickup)
@@ -29,12 +29,12 @@ Converting old scripts from `kubejs.old/` to the new standard approach.
 - [x] items.js (empty file)
 - [x] manapool.js -> manapool.js (alchemy->blaze burner, single crafting->mana pool)
 - [x] milk.js -> tags.js (milk fluid/block tags), TODO: milk cooldown behavior
-- [ ] mill_crush.js
-- [ ] monsterFertilizer.js
+- [x] mill_crush.js -- already ported to milling.js and crushing.js
+- [x] monsterFertilizer.js -- skipped, entirely commented out
 - [x] noWaterCheat.js -> block_tweaks.js
 - [x] oresAndIngots.js -> tags.js (brass=gold tags)
-- [ ] personal-equipment-reduction.js
-- [ ] petBetsy.js
+- [x] personal-equipment-reduction.js -> recipe_removals.js (botania items), block_tweaks.js (rod blocking)
+- [x] petBetsy.js -> player_tweaks.js (cow petting), commands.js (/backToBetsy)
 - [x] potions.js -> potions.js (dynamic filling recipes for all potions, brewing stand hidden)
 - [x] powders.js -> mixing.js (already ported)
 - [x] quartzAutomation.js -> filling.js (already ported)
@@ -43,8 +43,8 @@ Converting old scripts from `kubejs.old/` to the new standard approach.
 - [x] schematicannonFuelless.js -> block_tweaks.js
 - [x] spaceship.js -> block_tweaks.js
 - [x] statusEffects.js -> player_tweaks.js (player invincibility)
-- [ ] tools.js
-- [ ] trains.js
+- [x] tools.js -> recipe_removals.js (one tool per material tier)
+- [x] trains.js -> sequenced_assembly.js (rail assembly from nuggets/alloy)
 - [x] trees.js -> split into milling.js, crushing.js, cutting.js, smelting.js, crafting.js (searchable via "TREES -" comments)
 - [x] variants.js (variantList.js, variants.js, varient.js) -> variants.js, variant_auto_assemble.js
 - [x] villagers.js -> recipe_removals.js, botania.js
@@ -108,22 +108,24 @@ Converting old scripts from `kubejs.old/` to the new standard approach.
 - [x] worldgen.js -> worldgen.js (removes ores, flowers, springs)
 
 ## Client Scripts (`kubejs.old/client_scripts/`)
-- [ ] animation_anchor.js
-- [ ] customPonderIndexButton.js
-- [ ] foodTooltips.js
-- [x] handInteractions.js -> player_tweaks.js (server-side handles it)
-- [ ] jei.js
-- [ ] lang.helpers.js
-- [ ] lang.js
-- [ ] milkNerf.js
-- [ ] modpack_utils.js
-- [ ] noWaterCheat.js
-- [ ] ponders/ (folder - 3 files)
-- [ ] tooltips/ (folder - 10+ files)
-- [ ] tradeShow.js
-- [ ] tradeTooltips.js
-- [ ] trading_platform_music.js
-- [ ] trading_platform_preview.js
+- [ ] animation_anchor.js -- part of Animation System
+- [x] customPonderIndexButton.js -- skipped, ponder system not ported
+- [x] foodTooltips.js -> tooltips.js (nutrition/saturation)
+- [x] handInteractions.js -> client_tweaks.js (bucket cancellations)
+- [x] jei.js -> emi.js (hide colored variants)
+- [x] lang.helpers.js -- skipped, old tooltip system replaced
+- [x] lang.js -> emi.js (EMI info page generation), tooltip system replaced
+- [ ] milkNerf.js -- milk cooldown not ported yet
+- [x] modpack_utils.js -- skipped, utility for lang.js
+- [x] noWaterCheat.js -> client_tweaks.js (glass bottle cancellation)
+- [ ] ponders/ (folder - 3 files) -- ponder system not ported
+- [x] tooltips/ (folder - 10+ files) -> tooltips.js (consolidated)
+- [ ] tradeShow.js -- part of Trading System
+- [ ] tradeTooltips.js -- part of Trading System
+- [ ] trading_platform_music.js -- part of Trading System
+- [ ] trading_platform_preview.js -- part of Trading System
+- [x] globals.js -- skipped, empty file
+- [x] features.js -- skipped, replaced by ConfigJS
 
 ## Already Converted
 - [x] crushing.js

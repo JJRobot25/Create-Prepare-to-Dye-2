@@ -457,4 +457,16 @@ ServerEvents.recipes((event) => {
     ],
     "minecraft:oak_leaves"
   );
+
+  // DEAD PLANET - white concrete powder to dye/dead bush/bone
+  event.recipes.create.crushing(
+    [
+      Item.of("minecraft:white_dye").withChance(0.05),
+      Item.of("minecraft:dead_bush").withChance(0.05),
+      Item.of("minecraft:bone").withChance(0.03),
+      Item.of("minecraft:bone_meal").withChance(0.001),
+      Item.of("minecraft:stick").withChance(0.001),
+    ],
+    "minecraft:white_concrete_powder"
+  );
 });

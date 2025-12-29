@@ -28,4 +28,23 @@ ServerEvents.recipes((event) => {
     "minecraft:slime_block",
     ["12x botania:terrasteel_nugget", Fluid.of("create:honey", 750)]
   );
+
+  // DEAD PLANET - dirt from wood chips, sand, and clay ball
+  event.recipes.create.compacting("minecraft:dirt", [
+    "2x createdieselgenerators:wood_chip",
+    "#forge:sand",
+    "minecraft:clay_ball",
+  ]);
+
+  // DEAD PLANET - dirt from sticks and sand (75% chance)
+  event.recipes.create.compacting(
+    [Item.of("minecraft:dirt").withChance(0.75)],
+    ["4x minecraft:stick", "2x #forge:sand"]
+  );
+
+  // DEAD PLANET - dirt from wood chips and clay
+  event.recipes.create.compacting("2x minecraft:dirt", [
+    "4x createdieselgenerators:wood_chip",
+    "minecraft:clay",
+  ]);
 });
