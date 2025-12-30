@@ -3,7 +3,7 @@
 
 // Player invincibility - players cannot take damage except from void/kill
 EntityEvents.hurt(function (event) {
-  if (global.config_invincibility.get() && event.entity.player && !event.source.isBypassInvul()) {
+  if (global.config_invincibility.get() && event.entity.player) {
     event.cancel();
   }
 });

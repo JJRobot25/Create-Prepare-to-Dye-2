@@ -138,11 +138,11 @@ ServerEvents.recipes((event) => {
   });
 
   // DEAD PLANET - dripping from grass creates dead bush
-  event.custom({
-    type: "lychee:dripstone_dripping",
-    block_in: "minecraft:grass_block",
-    post: [
-      { type: "drop_item", item: "minecraft:dead_bush" },
-    ],
-  });
+  // event.custom({
+  //   type: "lychee:dripstone_dripping",
+  //   block_in: "minecraft:grass_block",
+  //   post: [
+  //     { type: "drop_item", item: "minecraft:dead_bush" },
+  //   ],
+  // });
 });
