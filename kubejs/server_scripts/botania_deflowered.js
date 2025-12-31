@@ -10,13 +10,126 @@ var FUNCTIONAL_FLOWERS = [
   "pure_daisy", "manastar", "hydroangeas", "endoflame", "thermalily", "rosa_arcana",
   "munchdew", "entropinnyum", "kekimurus", "gourmaryllis", "narslimmus", "spectrolus",
   "dandelifeon", "rafflowsia", "shulk_me_not", "bellethorn", "bergamute", "dreadthorn",
-  "heisei_dream", "tigerseye", "orechid", "fallen_kanade", "exoflame",
+  "heisei_dream", "tigerseye", "orechid", "exoflame",
   "agricarnation", "hopperhock", "tangleberrie", "jiyuulia", "rannuncarpus", "hyacidus",
   "pollidisiac", "clayconia", "loonium", "daffomill", "vinculotus", "spectranthemum",
-  "medumone", "marimorphosis", "bubbell", "solegnolia", "orechid_ignem", "labellia",
+  "medumone", "marimorphosis", "orechid_ignem", "labellia",
   "bellethorn_chibi", "agricarnation_chibi", "hopperhock_chibi", "rannuncarpus_chibi",
-  "clayconia_chibi", "marimorphosis_chibi", "bubbell_chibi", "solegnolia_chibi"
+  "clayconia_chibi", "marimorphosis_chibi"
 ];
+
+
+
+var REMOVED_FUNCTIONAL_FLOWERS = [
+  "fallen_kanade",
+  "bubbell",
+  "solegnolia",
+];
+
+// Precompute derived lists once (script load time), so event handlers stay simple/fast.
+var REMOVED_FUNCTIONAL_ITEMS = [];
+for (var i = 0; i < REMOVED_FUNCTIONAL_FLOWERS.length; i++) {
+  var _removedFlower = REMOVED_FUNCTIONAL_FLOWERS[i];
+  REMOVED_FUNCTIONAL_ITEMS.push("botania:" + _removedFlower);
+  REMOVED_FUNCTIONAL_ITEMS.push("botania:floating_" + _removedFlower);
+  REMOVED_FUNCTIONAL_ITEMS.push("botania:" + _removedFlower + "_chibi");
+}
+
+// In this script, we treat FUNCTIONAL_FLOWERS as the "kept" list.
+// (If you ever want to derive kept = all - removed again, we can reintroduce a set/subtraction.)
+var KEPT_FUNCTIONAL_FLOWERS = FUNCTIONAL_FLOWERS;
+
+var BOTANIA_COLOR_REMOVED_ITEM_SUFFIXES = [
+  "_petal_block",
+  "_shiny_flower",
+  "_mystical_flower",
+  "_floating_flower",
+  "_double_flower",
+  "_petal",
+  "_mushroom"
+];
+
+var QUARTZ_RECIPES = [
+  ["botania:dark_quartz", "#minecraft:coals"],
+  ["botania:lavender_quartz", "#forge:dyes/magenta"],
+  ["botania:sunny_quartz", "minecraft:sunflower"],
+  ["botania:blaze_quartz", "minecraft:blaze_powder"],
+  ["botania:red_quartz", "minecraft:redstone"],
+  ["botania:mana_quartz", "botania:mana_bottle"],
+  ["botania:elf_quartz", "create:refined_radiance"]
+];
+
+// Remove quartz items (the small ones, not the blocks)
+var QUARTZ_ITEMS = [
+  "botania:quartz_dark",
+  "botania:quartz_lavender",
+  "botania:quartz_sunny",
+  "botania:quartz_blaze",
+  "botania:quartz_red",
+  "botania:quartz_mana"
+];
+
+// Tiara recipes - use quartz blocks
+var TIARA_QUARTZ = [
+  "minecraft:quartz_block",
+  "botania:dark_quartz",
+  "botania:mana_quartz",
+  "botania:blaze_quartz",
+  "botania:lavender_quartz",
+  "botania:red_quartz",
+  "botania:elf_quartz",
+  "botania:sunny_quartz"
+];
+
+var OTHER_REMOVED_ITEMS = [
+  "botania:fertilizer",
+  "botania:jaded_amaranthus",
+  "botania:floating_jaded_amaranthus",
+  "botania:flower_bag",
+  "botania:pestle_and_mortar",
+  "botania:mana_string",
+  "botania:manaweave_cloth",
+  // Note: spell_cloth is re-added via new recipes below; keep it visible
+  "botania:quartz_elven"
+].concat(QUARTZ_ITEMS);
+
+var INFUSABLE_DUSTS = [
+  "minecraft:glowstone_dust",
+  "minecraft:redstone",
+  "minecraft:sugar",
+  "minecraft:gunpowder",
+  "minecraft:blaze_powder",
+  "supplementaries:ash",
+  "create:cinder_flour",
+  "create:wheat_flour"
+];
+
+// Helpers (reduce repetition / bloat)
+function removeOutputs(event, items) {
+  for (var i = 0; i < items.length; i++) {
+    event.remove({ output: items[i] });
+  }
+}
+
+function hideRemovedItem(event, item) {
+  event.removeAllTagsFrom(item);
+  event.add("c:hidden_from_recipe_viewers", item);
+  event.add("c:removed", item);
+}
+
+function hideRemovedItems(event, items) {
+  for (var i = 0; i < items.length; i++) {
+    hideRemovedItem(event, items[i]);
+  }
+}
+
+function getColorRemovedItems(color) {
+  var out = [];
+  for (var i = 0; i < BOTANIA_COLOR_REMOVED_ITEM_SUFFIXES.length; i++) {
+    out.push("botania:" + color + BOTANIA_COLOR_REMOVED_ITEM_SUFFIXES[i]);
+  }
+  return out;
+}
 
 ServerEvents.recipes(function (event) {
   // Replace botania fertilizer with bone meal
@@ -40,14 +153,9 @@ ServerEvents.recipes(function (event) {
     // Remove botania petal to dye recipes
     event.remove({ id: "botania:dye_" + color });
 
-    // Remove petal block, flowers
-    event.remove({ output: "botania:" + color + "_petal_block" });
-    event.remove({ output: "botania:" + color + "_shiny_flower" });
-    event.remove({ output: "botania:" + color + "_mystical_flower" });
-    event.remove({ output: "botania:" + color + "_floating_flower" });
-    event.remove({ output: "botania:" + color + "_double_flower" });
-    event.remove({ output: "botania:" + color + "_petal" });
-    event.remove({ output: "botania:" + color + "_mushroom" });
+    // Remove petal block, flowers, petals, mushrooms (keep list centralized)
+    var removedColorItems = getColorRemovedItems(color);
+    removeOutputs(event, removedColorItems);
   }
 
   // Remove mushroom recipes (0-15)
@@ -62,8 +170,8 @@ ServerEvents.recipes(function (event) {
   event.remove({ output: "botania:pestle_and_mortar" });
 
   // Floating functional flower recipes - use dirt instead of original
-  for (var i = 0; i < FUNCTIONAL_FLOWERS.length; i++) {
-    var flower = FUNCTIONAL_FLOWERS[i];
+  for (var i = 0; i < KEPT_FUNCTIONAL_FLOWERS.length; i++) {
+    var flower = KEPT_FUNCTIONAL_FLOWERS[i];
     event.remove({ output: "botania:floating_" + flower });
     event.shapeless("botania:floating_" + flower, [
       "botania:" + flower,
@@ -71,19 +179,13 @@ ServerEvents.recipes(function (event) {
     ]);
   }
 
+  // Removed functional flowers: remove both base + floating variants entirely
+  removeOutputs(event, REMOVED_FUNCTIONAL_ITEMS);
+
   // Simplified colored quartz recipes
-  var quartzRecipes = [
-    ["botania:dark_quartz", "#minecraft:coals"],
-    ["botania:lavender_quartz", "#forge:dyes/magenta"],
-    ["botania:sunny_quartz", "minecraft:sunflower"],
-    ["botania:blaze_quartz", "minecraft:blaze_powder"],
-    ["botania:red_quartz", "minecraft:redstone"],
-    ["botania:mana_quartz", "botania:mana_bottle"],
-    ["botania:elf_quartz", "create:refined_radiance"]
-  ];
-  for (var i = 0; i < quartzRecipes.length; i++) {
-    var quartzBlock = quartzRecipes[i][0];
-    var ingredient = quartzRecipes[i][1];
+  for (var i = 0; i < QUARTZ_RECIPES.length; i++) {
+    var quartzBlock = QUARTZ_RECIPES[i][0];
+    var ingredient = QUARTZ_RECIPES[i][1];
     event.remove({ output: quartzBlock });
     event.shaped(Item.of(quartzBlock, 8), ["###", "#i#", "###"], {
       "#": "minecraft:quartz_block",
@@ -97,25 +199,14 @@ ServerEvents.recipes(function (event) {
   event.remove({ id: "botania:elven_trade/elf_quartz" });
 
   // Remove quartz items (the small ones, not the blocks)
-  var quartzItems = [
-    "botania:quartz_dark", "botania:quartz_lavender", "botania:quartz_sunny",
-    "botania:quartz_blaze", "botania:quartz_red", "botania:quartz_mana"
-  ];
-  for (var i = 0; i < quartzItems.length; i++) {
-    event.remove({ output: quartzItems[i] });
-  }
+  removeOutputs(event, QUARTZ_ITEMS);
 
   // Tiara recipes - use quartz blocks
-  var tiaraQuartz = [
-    "minecraft:quartz_block", "botania:dark_quartz", "botania:mana_quartz",
-    "botania:blaze_quartz", "botania:lavender_quartz", "botania:red_quartz",
-    "botania:elf_quartz", "botania:sunny_quartz"
-  ];
-  for (var i = 0; i < tiaraQuartz.length; i++) {
+  for (var i = 0; i < TIARA_QUARTZ.length; i++) {
     event.remove({ id: "botania:flight_tiara_" + (i + 1) });
     event.shapeless(Item.of("botania:flight_tiara", "{variant:" + (i + 1) + "}"), [
       "botania:flight_tiara",
-      tiaraQuartz[i]
+      TIARA_QUARTZ[i]
     ]);
   }
 
@@ -154,58 +245,18 @@ ServerEvents.tags("item", function (event) {
   // Hide removed flower/petal items
   for (var i = 0; i < COLORS.length; i++) {
     var color = COLORS[i];
-    var items = [
-      "botania:" + color + "_petal_block",
-      "botania:" + color + "_shiny_flower",
-      "botania:" + color + "_mystical_flower",
-      "botania:" + color + "_floating_flower",
-      "botania:" + color + "_double_flower",
-      "botania:" + color + "_petal",
-      "botania:" + color + "_mushroom"
-    ];
-    for (var j = 0; j < items.length; j++) {
-      event.removeAllTagsFrom(items[j]);
-      event.add("c:hidden_from_recipe_viewers", items[j]);
-      event.add("c:removed", items[j]);
-    }
+    hideRemovedItems(event, getColorRemovedItems(color));
   }
+
+  // Hide removed functional flowers (base + floating)
+  hideRemovedItems(event, REMOVED_FUNCTIONAL_ITEMS);
 
   // Hide other removed items
-  var removedItems = [
-    "botania:fertilizer",
-    "botania:jaded_amaranthus",
-    "botania:floating_jaded_amaranthus",
-    "botania:flower_bag",
-    "botania:pestle_and_mortar",
-    "botania:mana_string",
-    "botania:manaweave_cloth",
-    "botania:quartz_elven",
-    "botania:quartz_dark",
-    "botania:quartz_lavender",
-    "botania:quartz_sunny",
-    "botania:quartz_blaze",
-    "botania:quartz_red",
-    "botania:quartz_mana"
-  ];
-  for (var i = 0; i < removedItems.length; i++) {
-    event.removeAllTagsFrom(removedItems[i]);
-    event.add("c:hidden_from_recipe_viewers", removedItems[i]);
-    event.add("c:removed", removedItems[i]);
-  }
+  hideRemovedItems(event, OTHER_REMOVED_ITEMS);
 
   // Infusable dusts tag for mana powder replacement
-  var infusableDusts = [
-    "minecraft:glowstone_dust",
-    "minecraft:redstone",
-    "minecraft:sugar",
-    "minecraft:gunpowder",
-    "minecraft:blaze_powder",
-    "supplementaries:ash",
-    "create:cinder_flour",
-    "create:wheat_flour"
-  ];
-  for (var i = 0; i < infusableDusts.length; i++) {
-    event.add("forge:dusts/infusable", infusableDusts[i]);
+  for (var i = 0; i < INFUSABLE_DUSTS.length; i++) {
+    event.add("forge:dusts/infusable", INFUSABLE_DUSTS[i]);
   }
 
   // Lapis as mana dust
