@@ -23,7 +23,9 @@
     "io.github.mortuusars.wares.client.gui.agreement.AgreementScreen": true,
     "com.jaquadro.minecraft.storagedrawers.inventory.FramingTableScreen": true,
     "org.violetmoon.quark.addons.oddities.client.screen.CrateScreen": true,
-    "io.github.mortuusars.wares.client.gui.screen.DeliveryTableScreen": true
+    "io.github.mortuusars.wares.client.gui.screen.DeliveryTableScreen": true,
+    "com.simibubi.create.content.equipment.clipboard.ClipboardScreen": true,
+    "com.simibubi.create.content.logistics.filter.FilterScreen": true
   },
   "hideBackground": {
     "dev.emi.emi.screen.RecipeScreen": true,
@@ -34,6 +36,8 @@
     "com.example.personalmesystem.client.gui.PersonalMEScreen": true,
     "io.github.mortuusars.wares.client.gui.agreement.AgreementScreen": true,
     "org.violetmoon.quark.addons.oddities.client.screen.CrateScreen": true,
-    "io.github.mortuusars.wares.client.gui.screen.DeliveryTableScreen": true
+    "io.github.mortuusars.wares.client.gui.screen.DeliveryTableScreen": true,
+    "com.simibubi.create.content.equipment.clipboard.ClipboardScreen": true,
+    "com.simibubi.create.content.logistics.filter.FilterScreen": true
   }
 }
