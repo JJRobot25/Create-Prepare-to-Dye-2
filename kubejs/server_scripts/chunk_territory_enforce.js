@@ -1,205 +1,192 @@
 // Chunk Territory Enforcement
 
 var playerWasOutside = {};
+var lastBorderSound = {};
+
+function hasTerritory() {
+    return global.ChunkTerritory &&
+           global.ChunkTerritory.chunks &&
+           Object.keys(global.ChunkTerritory.chunks).length > 0;
+}
+
+function isPassable(level, x, y, z) {
+    var id = level.getBlock(x, y, z).id + '';
+    return id.indexOf('air') !== -1 || id === 'minecraft:water';
+}
+
+function playSound(player, sound, x, y, z, volume, pitch) {
+    player.server.runCommandSilent(
+        'playsound ' + sound + ' master ' + player.name.string +
+        ' ' + x + ' ' + y + ' ' + z + ' ' + volume + ' ' + pitch
+    );
+}
+
+function denyEffect(server, name, x, y, z) {
+    server.runCommandSilent('particle angry_villager ' + x + ' ' + y + ' ' + z + ' 0.2 0.2 0.2 0 5 force ' + name);
+    server.runCommandSilent('playsound minecraft:block.note_block.bass master ' + name + ' ' + x + ' ' + y + ' ' + z + ' 0.5 0.5');
+}
 
 // Spectator mode enforcement
 PlayerEvents.tick(function(event) {
-    try {
-        if (!global.ChunkTerritory) return;
+    if (!global.ChunkTerritory) return;
 
-        var player = event.player;
-        // OP bypass disabled for testing
-        // if (player.hasPermissions(2)) return;
+    var player = event.player;
+    if (player.creative) return;
 
-        var uuid = player.uuid.toString();
+    var uuid = player.uuid.toString();
 
-        // If no territories are registered, do nothing (and un-stick players we forced into spectator).
-        var chunks = global.ChunkTerritory.chunks;
-        var hasAny = chunks && Object.keys(chunks).length > 0;
-        if (!hasAny) {
-            if (playerWasOutside[uuid]) {
-                playerWasOutside[uuid] = false;
-                if (player.spectator) {
-                    player.setGameMode('survival');
-                    player.tell('Territory enforcement disabled (no territories registered)');
-                }
-            }
-            return;
-        }
-
-        var cx = player.chunkPosition().x;
-        var cz = player.chunkPosition().z;
-
-        var owns = global.ChunkTerritory.owns(uuid, cx, cz);
-        var wasOutside = playerWasOutside[uuid] || false;
-
-        if (!owns && !wasOutside) {
-            playerWasOutside[uuid] = true;
-            player.setGameMode('spectator');
-            player.tell('You do not own this chunk');
-            player.server.runCommandSilent('playsound minecraft:block.respawn_anchor.charge master ' + player.name.string + ' ' + player.x + ' ' + player.y + ' ' + player.z + ' 1 0.5');
-        } else if (owns && wasOutside) {
+    if (!hasTerritory()) {
+        if (playerWasOutside[uuid] && player.spectator) {
             playerWasOutside[uuid] = false;
-            // Check if player would suffocate - scan upward for safe spot
-            var px = Math.floor(player.x);
-            var py = Math.floor(player.y);
-            var pz = Math.floor(player.z);
-            var level = player.level;
+            player.setGameMode('survival');
+            player.tell('Territory enforcement disabled');
+        }
+        return;
+    }
 
-            var feetId = level.getBlock(px, py, pz).id + '';
-            var headId = level.getBlock(px, py + 1, pz).id + '';
-            var feetSolid = feetId.indexOf('air') === -1 && feetId !== 'minecraft:water';
-            var headSolid = headId.indexOf('air') === -1 && headId !== 'minecraft:water';
+    var cx = player.chunkPosition().x;
+    var cz = player.chunkPosition().z;
+    var owns = global.ChunkTerritory.owns(uuid, cx, cz);
+    var wasOutside = playerWasOutside[uuid] || false;
 
-            if (feetSolid || headSolid) {
-                for (var checkY = py; checkY < py + 50; checkY++) {
-                    var f = level.getBlock(px, checkY, pz).id + '';
-                    var h = level.getBlock(px, checkY + 1, pz).id + '';
-                    if ((f.indexOf('air') !== -1 || f === 'minecraft:water') &&
-                        (h.indexOf('air') !== -1 || h === 'minecraft:water')) {
-                        player.teleportTo(player.x, checkY, player.z);
-                        break;
-                    }
+    if (!owns && !wasOutside) {
+        playerWasOutside[uuid] = true;
+        player.setGameMode('spectator');
+        player.tell('You do not own this chunk');
+        playSound(player, 'minecraft:block.respawn_anchor.charge', player.x, player.y, player.z, 1, 0.5);
+    }
+    else if (owns && wasOutside) {
+        playerWasOutside[uuid] = false;
+
+        var px = Math.floor(player.x), py = Math.floor(player.y), pz = Math.floor(player.z);
+        if (!isPassable(player.level, px, py, pz) || !isPassable(player.level, px, py + 1, pz)) {
+            for (var y = py; y < py + 50; y++) {
+                if (isPassable(player.level, px, y, pz) && isPassable(player.level, px, y + 1, pz)) {
+                    player.teleportTo(player.x, y, player.z);
+                    break;
                 }
             }
-            player.setGameMode('survival');
-            player.tell('Welcome back');
-            player.server.runCommandSilent('playsound minecraft:block.respawn_anchor.charge master ' + player.name.string + ' ' + player.x + ' ' + player.y + ' ' + player.z + ' 1 1.5');
         }
-    } catch(e) {
-        console.log('[territory] spectator error: ' + e);
+
+        player.setGameMode('survival');
+        player.tell('Welcome back');
+        playSound(player, 'minecraft:block.respawn_anchor.charge', player.x, player.y, player.z, 1, 1.5);
     }
 });
 
-// Border particles - debug version
+// Border particles
 PlayerEvents.tick(function(event) {
-    try {
-        if (!global.ChunkTerritory) return;
-        var chunks = global.ChunkTerritory.chunks;
-        if (!chunks || Object.keys(chunks).length === 0) return;
+    if (!hasTerritory()) return;
+    if (event.server.tickCount % 4 !== 0) return;
 
-        var tick = event.server.tickCount;
-        if (tick % 5 !== 0) return;  // 4 times per second
+    var player = event.player;
+    if (player.creative) return;
 
-        var player = event.player;
-        if (player.spectator) return;
-        // if (player.hasPermissions(2)) return;
+    var uuid = player.uuid.toString();
+    var cx = player.chunkPosition().x, cz = player.chunkPosition().z;
+    var localX = player.x - cx * 16, localZ = player.z - cz * 16;
+    var owns = global.ChunkTerritory.owns(uuid, cx, cz);
 
-        var uuid = player.uuid.toString();
-        var cx = player.chunkPosition().x;
-        var cz = player.chunkPosition().z;
-        var px = player.x;
-        var pz = player.z;
-        var py = player.y;
+    if (!owns && !player.spectator) return;
 
-        var localX = px - (cx * 16);
-        var localZ = pz - (cz * 16);
+    var dist = player.spectator ? 5 : 2;
+    var edges = [
+        { check: localX < dist,      adj: [cx-1, cz], pos: cx * 16,     axis: 'z', dir: 'west',  near: localX < 1 },
+        { check: localX > 16 - dist, adj: [cx+1, cz], pos: (cx+1) * 16, axis: 'z', dir: 'east',  near: localX > 15 },
+        { check: localZ < dist,      adj: [cx, cz-1], pos: cz * 16,     axis: 'x', dir: 'north', near: localZ < 1 },
+        { check: localZ > 16 - dist, adj: [cx, cz+1], pos: (cz+1) * 16, axis: 'x', dir: 'south', near: localZ > 15 }
+    ];
 
-        // Debug every 5 seconds
-        if (tick % 100 === 0) {
-            console.log('[territory] chunk[' + cx + ',' + cz + '] local[' + localX.toFixed(1) + ',' + localZ.toFixed(1) + ']');
-            console.log('[territory] neighbors: W=' + !global.ChunkTerritory.owns(uuid, cx-1, cz) +
-                ' E=' + !global.ChunkTerritory.owns(uuid, cx+1, cz) +
-                ' N=' + !global.ChunkTerritory.owns(uuid, cx, cz-1) +
-                ' S=' + !global.ChunkTerritory.owns(uuid, cx, cz+1));
-            console.log('[territory] near edge: W=' + (localX < 4) + ' E=' + (localX > 12) + ' N=' + (localZ < 4) + ' S=' + (localZ > 12));
-        }
+    var minX = cx * 16, maxX = (cx+1) * 16;
+    var minZ = cz * 16, maxZ = (cz+1) * 16;
 
-        // West edge - particles at 4 blocks, sound at 1 block
-        if (localX < 4) {
-            if (!global.ChunkTerritory.owns(uuid, cx - 1, cz)) {
-                spawnBorder(player, cx * 16, py, pz, 'z', 'west', localX < 1);
-            }
-        }
-        // East edge
-        if (localX > 12) {
-            if (!global.ChunkTerritory.owns(uuid, cx + 1, cz)) {
-                spawnBorder(player, (cx + 1) * 16, py, pz, 'z', 'east', localX > 15);
-            }
-        }
-        // North edge
-        if (localZ < 4) {
-            if (!global.ChunkTerritory.owns(uuid, cx, cz - 1)) {
-                spawnBorder(player, px, py, cz * 16, 'x', 'north', localZ < 1);
-            }
-        }
-        // South edge
-        if (localZ > 12) {
-            if (!global.ChunkTerritory.owns(uuid, cx, cz + 1)) {
-                spawnBorder(player, px, py, (cz + 1) * 16, 'x', 'south', localZ > 15);
-            }
-        }
-    } catch(e) {
-        console.log('[territory] particles error: ' + e);
+    for (var i = 0; i < edges.length; i++) {
+        var e = edges[i];
+        if (!e.check) continue;
+
+        var adjOwns = global.ChunkTerritory.owns(uuid, e.adj[0], e.adj[1]);
+        if (owns === adjOwns) continue;
+
+        var rangeMin = (e.axis === 'x') ? minX : minZ;
+        var rangeMax = (e.axis === 'x') ? maxX : maxZ;
+        spawnBorderLine(player, e.pos, player.y, rangeMin, rangeMax, e.axis, e.dir, e.near);
     }
 });
 
-var lastBorderSound = {};  // uuid_direction -> timestamp
-
-function spawnBorder(player, x, y, z, axis, direction, playSound) {
+function spawnBorderLine(player, borderPos, y, rangeMin, rangeMax, axis, direction, doSound) {
     var name = player.name.string;
     var server = player.server;
+    var isX = (axis === 'x');
 
-    // Big red dust particles
-    if (axis === 'x') {
-        server.runCommandSilent('particle dust 1 0 0 2 ' + x + ' ' + y + ' ' + z + ' 6 4 0.1 0 40 force ' + name);
-        server.runCommandSilent('particle dust 1 0.2 0.2 1.5 ' + x + ' ' + (y+2) + ' ' + z + ' 6 2 0.1 0 40 force ' + name);
-    } else {
-        server.runCommandSilent('particle dust 1 0 0 2 ' + x + ' ' + y + ' ' + z + ' 0.1 4 6 0 40 force ' + name);
-        server.runCommandSilent('particle dust 1 0.2 0.2 1.5 ' + x + ' ' + (y+2) + ' ' + z + ' 0.1 2 6 0 40 force ' + name);
+    for (var i = rangeMin + 2; i < rangeMax - 1; i += 3) {
+        var x = isX ? i : borderPos;
+        var z = isX ? borderPos : i;
+        var dx = isX ? 1.5 : 0.1;
+        var dz = isX ? 0.1 : 1.5;
+        server.runCommandSilent('particle dust 1 0 0 2 ' + x + ' ' + y + ' ' + z + ' ' + dx + ' 3 ' + dz + ' 0 8 force ' + name);
+        server.runCommandSilent('particle dust 1 0.2 0.2 1.5 ' + x + ' ' + (y+2) + ' ' + z + ' ' + dx + ' 2 ' + dz + ' 0 5 force ' + name);
     }
 
-    // Warning sound only within 1 block of edge
-    if (!playSound) return;
-
+    if (!doSound) return;
     var key = player.uuid.toString() + '_' + direction;
     var now = Date.now();
-    var elapsed = lastBorderSound[key] ? (now - lastBorderSound[key]) : 9999;
-    if (elapsed > 600) {
-        var pitch = 0.5 + Math.random() * 0.3;
-        server.runCommandSilent('playsound minecraft:block.amethyst_block.chime master ' + name + ' ' + x + ' ' + y + ' ' + z + ' 1 ' + pitch);
+    if ((now - (lastBorderSound[key] || 0)) > 600) {
+        var sx = isX ? player.x : borderPos;
+        var sz = isX ? borderPos : player.z;
+        server.runCommandSilent('playsound minecraft:block.amethyst_block.chime master ' + name + ' ' + sx + ' ' + y + ' ' + sz + ' 1 ' + (0.5 + Math.random() * 0.3));
         lastBorderSound[key] = now;
     }
 }
 
 // Block protection
+function checkBlockAccess(event) {
+    if (!hasTerritory()) return true;
+    var player = event.entity;
+    if (!player || !player.isPlayer()) return true;
+    if (player.creative) return true;
+
+    var cx = Math.floor(event.block.x / 16);
+    var cz = Math.floor(event.block.z / 16);
+    return global.ChunkTerritory.owns(player.uuid.toString(), cx, cz);
+}
+
+function denyBlock(event, player) {
+    var b = event.block;
+    denyEffect(event.server, player.name.string, b.x + 0.5, b.y + 0.5, b.z + 0.5);
+    event.server.scheduleInTicks(1, function() {
+        player.inventoryMenu.broadcastFullState();
+    });
+    event.cancel();
+}
+
 BlockEvents.placed(function(event) {
-    try {
-        if (!global.ChunkTerritory) return;
-        var chunks = global.ChunkTerritory.chunks;
-        if (!chunks || Object.keys(chunks).length === 0) return;
+    if (!checkBlockAccess(event)) {
         var player = event.entity;
-        if (!player || !player.isPlayer()) return;
-        // if (player.hasPermissions(2)) return;
-
-        var cx = Math.floor(event.block.x / 16);
-        var cz = Math.floor(event.block.z / 16);
-
-        if (!global.ChunkTerritory.owns(player.uuid.toString(), cx, cz)) {
-            event.cancel();
-        }
-    } catch(e) {
-        console.log('[territory] place error: ' + e);
+        if (player && player.isPlayer()) denyBlock(event, player);
+        else event.cancel();
     }
 });
 
 BlockEvents.broken(function(event) {
-    try {
-        if (!global.ChunkTerritory) return;
-        var chunks = global.ChunkTerritory.chunks;
-        if (!chunks || Object.keys(chunks).length === 0) return;
+    if (!checkBlockAccess(event)) {
+        event.cancel();
         var player = event.entity;
-        if (!player || !player.isPlayer()) return;
-        // if (player.hasPermissions(2)) return;
-
-        var cx = Math.floor(event.block.x / 16);
-        var cz = Math.floor(event.block.z / 16);
-
-        if (!global.ChunkTerritory.owns(player.uuid.toString(), cx, cz)) {
-            event.cancel();
+        if (player && player.isPlayer()) {
+            var b = event.block;
+            denyEffect(event.server, player.name.string, b.x + 0.5, b.y + 0.5, b.z + 0.5);
         }
-    } catch(e) {
-        console.log('[territory] break error: ' + e);
+    }
+});
+
+BlockEvents.rightClicked(function(event) {
+    if (!hasTerritory()) return;
+    var player = event.player;
+    if (!player || player.creative) return;
+
+    var cx = Math.floor(event.block.x / 16);
+    var cz = Math.floor(event.block.z / 16);
+    if (!global.ChunkTerritory.owns(player.uuid.toString(), cx, cz)) {
+        denyBlock(event, player);
     }
 });
 
