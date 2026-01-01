@@ -449,6 +449,14 @@ ServerEvents.tags("item", function(event) {
       event.add("ptd:devices/generic_devices", group.generic);
     }
   }
+
+  // Tag tool devices as none_recycleable
+  var toolDevices = DEVICE_GROUPS.tools.devices;
+  for (var i = 0; i < toolDevices.length; i++) {
+    if (!Item.of(toolDevices[i]).isEmpty()) {
+      event.add("ptdye:none_recycleable", toolDevices[i]);
+    }
+  }
 });
 
 // =============================================================================

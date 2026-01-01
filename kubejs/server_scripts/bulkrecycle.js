@@ -13,7 +13,7 @@ var DEVICE_GENERICS = {
   "furnished_devices": "ptdye:furnished_device",
   "tool_devices": "ptdye:tool_parts",
   "lamp_devices": "minecraft:redstone_lamp",
-  "cog_devices": "create:cogwheel"
+  "cog_devices": "create:cogwheel"  
 };
 
 function getDeviceType(item) {
@@ -21,6 +21,14 @@ function getDeviceType(item) {
   if (item.hasNBT()) return null;
 
   var tags = item.getTags().toArray();
+
+  // Check for none_recycleable tag first
+  for (var i = 0; i < tags.length; i++) {
+    var tagStr = "" + tags[i];
+    if (tagStr.indexOf("ptdye:none_recycleable") !== -1) {
+      return null;
+    }
+  }
 
   for (var i = 0; i < tags.length; i++) {
     var tagStr = "" + tags[i];
