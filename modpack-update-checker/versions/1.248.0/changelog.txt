@@ -1,0 +1,13 @@
+## [1.248.0](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/compare/1.247.1...1.248.0) (2026-01-01)
+
+
+### Features
+
+* Reduced base terrain variation by 40% while allowing extremes to reach 50% higher/deeper peaks and valleys. ([fc9b31e](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/commit/fc9b31e0b0c95828756b41848edb5c3479f2f50d))
+
+
+### chores
+
+* autopublish 2025-12-31T19:34:49Z ([1c9541d](https://github.com/game-design-driven/Create-Prepare-to-Dye-2/commit/1c9541df9e064b7efaa841e8e8e9f008dc5a1c18))
+
+
