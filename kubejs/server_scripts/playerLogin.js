@@ -12,12 +12,16 @@ function getExtraPlayerItems() {
   ];
 }
 
+
+/**
+ * @param {Object} player
+ * @returns {void}
+ */
 function applyAutomatonAttributes(player) {
   player.setAttributeBaseValue("forge:swim_speed", global.config_swimSpeed.get());
   player.setAttributeBaseValue("forge:reach_distance", global.config_reachDistance.get());
   player.setAttributeBaseValue("forge:attack_range", global.config_attackRange.get());
   player.setAttributeBaseValue("minecraft:generic.attack_damage", global.config_attackDamage.get());
-
   Utils.server.runCommandSilent(
     `curios replace crafting_on_a_stick 0 ${player.displayName.getString()} with crafting_on_a_stick:stonecutter`
   );
@@ -26,12 +30,6 @@ function applyAutomatonAttributes(player) {
   );
   Utils.server.runCommandSilent(
     `curios replace head 0 ${player.displayName.getString()} with create:goggles`
-  );
-
-  player.tell(
-    Text.of("Use ")
-      .aqua()
-      .append(Text.of("V").red().append(Text.of(" to open your built-in Personal Assembler").aqua()))
   );
 }
 
