@@ -269,6 +269,71 @@ ItemEvents.tooltip(function(event) {
   });
 
   // ---------------------------------------------------------------------------
+  // Wares trade contents tooltip helper
+  // ---------------------------------------------------------------------------
+  function getItemName(id) {
+    return Item.of(id).getHoverName().getString();
+  }
+
+  function addTradeTooltip(text, requestedItems, paymentItems) {
+    if (requestedItems && requestedItems.size() > 0) {
+      var requestedMap = {};
+      for (var i = 0; i < requestedItems.size(); i++) {
+        var entry = requestedItems.get(i);
+        var id = entry.getString("id");
+        var count = entry.getInt("Count");
+        requestedMap[id] = (requestedMap[id] || 0) + count;
+      }
+      var reqKeys = Object.keys(requestedMap);
+      for (var i = 0; i < reqKeys.length; i++) {
+        var id = reqKeys[i];
+        text.add(Text.red("▼ ").append(Text.gray(requestedMap[id] + "x " + getItemName(id))));
+      }
+    }
+
+    if (paymentItems && paymentItems.size() > 0) {
+      var paymentMap = {};
+      for (var i = 0; i < paymentItems.size(); i++) {
+        var entry = paymentItems.get(i);
+        var id = entry.getString("id");
+        var count = entry.getInt("Count");
+        paymentMap[id] = (paymentMap[id] || 0) + count;
+      }
+      var payKeys = Object.keys(paymentMap);
+      for (var i = 0; i < payKeys.length; i++) {
+        var id = payKeys[i];
+        text.add(Text.green("▲ ").append(Text.gray(paymentMap[id] + "x " + getItemName(id))));
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Wares delivery agreement - show trade contents
+  // ---------------------------------------------------------------------------
+  event.addAdvanced("wares:delivery_agreement", function(item, advanced, text) {
+    var nbt = item.getNbt();
+    if (!nbt) return;
+    addTradeTooltip(text, nbt.get("requestedItems"), nbt.get("paymentItems"));
+  });
+
+  // ---------------------------------------------------------------------------
+  // Trading transceiver with stored agreement - show trade contents
+  // ---------------------------------------------------------------------------
+  event.addAdvanced("ptdye:trading_transceiver", function(item, advanced, text) {
+    var nbt = item.getNbt();
+    if (!nbt) return;
+
+    var stored = nbt.get("StoredAgreement");
+    if (!stored) return;
+
+    var tag = stored.get("tag");
+    if (!tag) return;
+
+    text.add(Text.gold("Stored Trade:"));
+    addTradeTooltip(text, tag.get("requestedItems"), tag.get("paymentItems"));
+  });
+
+  // ---------------------------------------------------------------------------
   // Botania "debookified" summaries
   // Shows the generated `.tooltip.summary` text while holding Shift.
   // (We can't rely on Create's ItemDescription integration here because `global.create`
