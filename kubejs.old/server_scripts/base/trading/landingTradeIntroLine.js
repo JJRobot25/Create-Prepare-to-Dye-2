@@ -200,7 +200,7 @@ const wscAxes = getAgreement("wscAxes", {
     "2x minecraft:chest",
     "ptdye:trading_transceiver",
   ],
-  requestedItems: ["16x #forge:tools/axes"],
+  requestedItems: ["16x #minecraft:axes"],
   title: "A new season is upon us, Tools needed",
   orderedAmount: 1,
   company: "wood_strike_and_co",
@@ -222,7 +222,7 @@ const wscBread = getAgreement("wscBread", {
 });
 const wscBreadAndAxesFixed = getAgreement("wscBreadAndAxesFixed", {
   paymentItems: ["8x minecraft:oak_log"],
-  requestedItems: ["64x minecraft:bread", "16x #forge:tools/axes"],
+  requestedItems: ["64x minecraft:bread", "16x #minecraft:axes"],
   title: "Food and tools, fixed rates",
   orderedAmount: 0,
   company: "wood_strike_and_co",
@@ -1214,7 +1214,7 @@ const bfsiWastelandClearance = getAgreement("bfsiWastelandClearance", {
     "minecraft:bee_nest",
     "minecraft:bee_nest",
   ],
-  requestedItems: ["16x #forge:tools/axes", "16x #forge:tools/shovels"],
+  requestedItems: ["16x #minecraft:axes", "16x #forge:tools/shovels"],
   title: "Creating the wasteland set for our next movie",
   orderedAmount: 7,
   company: "Big Flicks And Solutions Inc",

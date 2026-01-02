@@ -88,10 +88,28 @@ Our script base uses a feature based aproach, where you can enable and disable f
 #### Modrinth
 1. Go to server/readme.md and follow the instructions
 #### Curseforge
-Not uploaded as part of the cf release so a few more steps are required  
-1. download folder manually from [here](https://download-directory.github.io/?url=https://github.com/game-design-driven/Create-Prepare-to-Dye-2/tree/main/server) 
+Not uploaded as part of the cf release so a few more steps are required
+1. download folder manually from [here](https://download-directory.github.io/?url=https://github.com/game-design-driven/Create-Prepare-to-Dye-2/tree/main/server)
 2. Extract it into a new `server` folder under your modpack folder (can be named anything)
 3. Go there and read readme.md and follow the instructions
+
+### Development Setup
+To set up a development environment, install the modpack normally via Modrinth/Curseforge, then run in the modpack folder:
+```bash
+git init
+git remote add origin https://github.com/game-design-driven/Create-Prepare-to-Dye-2.git
+git fetch origin
+git reset --hard origin/main
+```
+This overwrites local files with the repo state, giving you a playable modpack that's also a git repo.
+
+**Contributing without write access:** Fork the repo first, then replace the origin URL with your fork URL. Alternatively, with [GitHub CLI](https://cli.github.com/):
+```bash
+git init
+gh repo fork game-design-driven/Create-Prepare-to-Dye-2 --remote
+git fetch origin
+git reset --hard origin/main
+```
 
 [Join us on Discord](https://discord.gg/v8cZ83kTPY)   
 [Play now on Modrinth](https://modrinth.com/modpack/Create-Prepare-to-Dye-2)
