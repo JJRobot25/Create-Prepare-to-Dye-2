@@ -103,7 +103,7 @@ git reset --hard origin/main
 ```
 This overwrites local files with the repo state, giving you a playable modpack that's also a git repo.
 
-**Contributing without write access:** Fork the repo first, then replace the origin URL with your fork URL. Alternatively, with [GitHub CLI](https://cli.github.com/):
+**Contributing without write access:** Fork the repo first, then replace the origin URL with your fork URL. Alternatively, with [GitHub CLI](https://cli.github.com/) (run `gh auth login` after installing):
 ```bash
 git init
 gh repo fork game-design-driven/Create-Prepare-to-Dye-2 --remote
