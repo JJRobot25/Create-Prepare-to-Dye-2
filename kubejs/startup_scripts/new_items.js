@@ -52,6 +52,9 @@ StartupEvents.registry("item", (event) => {
   event.create("ptdye:orange_tubes");
   event.create("ptdye:tool_parts");
 
+  event.create("ptdye:salt_granule");
+  event.create("ptdye:salt");
+  event.create("ptdye:salt_shaker");
   // Device generic items (convertible to specialized devices via stonecutter)
   // event.create("ptdye:sturdy_device");
   // event.create("ptdye:mechanical_device");
@@ -68,7 +71,7 @@ StartupEvents.registry("item", (event) => {
   // Animation anchors (anchor_set hidden via no tab addition)
   event.create("ptdye:animation_anchor").unstackable();
   event.create("ptdye:animation_anchor_set").unstackable().glow(true);
-
+  
   // Trading platform items
   event
     .create("ptdye:trading_transceiver")
